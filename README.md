@@ -22,13 +22,9 @@ Cascade is a unique programming language with a flowing, waterfall-like syntax d
 - Variables can be used in expressions once defined
 - Example: 
 
-Copy
+- x ~> 5 y ~> x * 2
 
-Apply
-
-x ~> 5 y ~> x * 2
-
-y # Outputs 10
+- y # Outputs 10
 
 
 ### Multiple Operations
@@ -39,13 +35,8 @@ y # Outputs 10
 - Operations can be cascaded using multiple lines
 - Example:
 
-Copy
 
-Apply
-
-x ~> 5 y ~> x + 3 z ~> y * 2
-
-z
+- x ~> 5 y ~> x + 3 z ~> y * 2
 
 
 ### Comments
