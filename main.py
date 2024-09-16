@@ -13,12 +13,14 @@ class CascadeInterpreter:
             ('PRINT', r'>>'),
             ('OPERATOR', r'[+\-*/]'),
             ('IDENTIFIER', r'[a-zA-Z_][a-zA-Z0-9_]*'),
+            ('LPAREN', r'\('),
+            ('RPAREN', r'\)'),
             ('NEWLINE', r'\n'),
             ('SKIP', r'[ \t]+'),
         ]
         tok_regex = '|'.join('(?P<%s>%s)' % pair for pair in token_spec)
         return [
-            {k: v for k, v in m.groupdict().items() if v is not None}
+            {m.lastgroup: m.group(m.lastgroup)}
             for m in re.finditer(tok_regex, code)
             if m.lastgroup != 'SKIP'
         ]
@@ -31,12 +33,12 @@ class CascadeInterpreter:
                 tokens = self.tokenize(line)
                 if not tokens:
                     continue
-                if 'FLOW' in tokens[1]:
+                if len(tokens) > 1 and 'FLOW' in tokens[1]:
                     var_name = tokens[0]['IDENTIFIER']
-                    expression = ''.join(t[k] for t in tokens[2:] for k in t if k != 'NEWLINE')
+                    expression = ''.join(t[list(t.keys())[0]] for t in tokens[2:] if list(t.keys())[0] != 'NEWLINE')
                     self.variables[var_name] = eval(expression, {}, self.variables)
                 elif 'PRINT' in tokens[0]:
-                    expression = ''.join(t[k] for t in tokens[1:] for k in t if k != 'NEWLINE')
+                    expression = ''.join(t[list(t.keys())[0]] for t in tokens[1:] if list(t.keys())[0] != 'NEWLINE')
                     result.append(str(eval(expression, {}, self.variables)))
                 else:
                     raise SyntaxError("Invalid syntax")
