@@ -47,3 +47,10 @@ Cascade is a unique programming language with a flowing, waterfall-like syntax d
 - Syntax highlighting (planned feature)
 - Real-time error checking (planned feature)
 - Integrated output display
+
+## Examples
+- initial ~> 100
+- rate ~> 0.05
+- time ~> 2
+- final_amount ~> initial * (1 + rate) ** time
+- >> final_amount
